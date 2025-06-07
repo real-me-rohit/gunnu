@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Enter Password</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      backdrop-filter: blur(8px);
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    input[type="password"] {
+      padding: 12px;
+      width: 100%;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: 0.2s;
+    }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: #fff;
+      color: #2a5298;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .message, .hint, .hint-card {
+      margin-top: 15px;
+      font-size: 14px;
+      color: yellow;
+    }
+
+    .hint {
+      opacity: 0;
+      transition: opacity 1.5s ease-in;
+    }
+
+    .hint.visible {
+      opacity: 1;
+    }
+
+    .hint-card {
+      display: none;
+      background: rgba(255, 255, 255, 0.9);
+      color: #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .hint-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Just One Step</h2>
+    <p>Enter the secret password</p>
+    <input type="password" id="password" placeholder="Type here..." onkeydown="checkEnter(event)" />
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="message" class="message"></p>
+    <p id="hint" class="hint">Hint: The password is your name</p>
+
+    <div id="hintCard" class="hint-card">
+      <img src="./library/gunjan.jpg" alt="Hint Image" />
+      <p>This name is your password</p>
+    </div>
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="wrongSound" src="./library/wronganswer-37702 (1).mp3" preload="auto"></audio>
+  <audio id="correctSound" src="./library/reelaudio-63746-rikywyqv_c0KwbOS6.mp3" preload="auto"></audio>
+
+  <script>
+    let attempts = 0;
+
+    function checkPassword() {
+      const inputField = document.getElementById("password");
+      const password = inputField.value.trim().toLowerCase();
+      const correctPassword = "gunjan lawdi";
+
+      const message = document.getElementById("message");
+      const hint = document.getElementById("hint");
+      const hintCard = document.getElementById("hintCard");
+      const wrongSound = document.getElementById("wrongSound");
+      const correctSound = document.getElementById("correctSound");
+
+      if (password === correctPassword.toLowerCase()) {
+        message.textContent = "Correct password! Playing audio...";
+        correctSound.play();
+
+        // Wait for audio to finish before redirecting
+        correctSound.onended = () => {
+          window.location.href = "sorry.html";
+        };
+
+      } else {
+        attempts++;
+        wrongSound.play();
+        inputField.classList.add("shake");
+        setTimeout(() => inputField.classList.remove("shake"), 300);
+        message.textContent = `Wrong password: "${inputField.value}"`;
+        inputField.value = "";
+
+        if (attempts === 1) {
+          hint.classList.add("visible");
+        }
+
+        if (attempts === 2) {
+          hintCard.style.display = "block";
+        }
+      }
+    }
+
+    function checkEnter(event) {
+      if (event.key === "Enter") {
+        checkPassword();
+      }
+    }
+  </script>
+</body>
+</html>
