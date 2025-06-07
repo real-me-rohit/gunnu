@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Meme Flipbook</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .flipbook {
+      width: 90%;
+      max-width: 600px;
+      height: auto;
+      position: relative;
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    video {
+      width: 100%;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    button {
+      background-color: #ff6b6b;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #ff4d4d;
+      transform: scale(1.05);
+    }
+
+    #final-scene {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .final-btns {
+      margin-top: 15px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .final-btns button {
+      font-size: 15px;
+      border-radius: 20px;
+      padding: 12px 18px;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="flipbook">
+    <div class="page active">
+      <video id="vid1" src="./library/video1.mp4" autoplay controls playsinline></video>
+    </div>
+    <div class="page">
+      <video id="vid2" src="./library/video2.mp4" autoplay controls playsinline></video>
+    </div>
+
+    <div class="nav-buttons" id="navBtns">
+      <button onclick="prevPage()">Previous</button>
+      <button onclick="nextPage()">Next</button>
+    </div>
+  </div>
+
+  <!-- Final emotional scene -->
+  <div id="final-scene">
+    <h2>Abhi bhi nahi manogi?</h2>
+    <div class="final-btns">
+      <button onclick="alert('Awww 😭 Thank you!')">Ja kutte, maaf kiya tujhe</button>
+      <button onclick="playSadAudio()">Still NO</button>
+    </div>
+  </div>
+
+  <audio id="cryAudio">
+    <source src="./library/abe-sale.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    let currentPage = 0;
+    let currentAudio = null; // Keep track of the current playing audio
+
+    function stopAudio() {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+    }
+
+    function showPage(index) {
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+        const video = page.querySelector('video');
+        if (i === index) {
+          video.currentTime = 0;
+          video.play().catch(() => {
+            document.body.addEventListener('click', () => video.play(), { once: true });
+          });
+        } else {
+          video.pause();
+        }
+      });
+    }
+
+    function nextPage() {
+      stopAudio(); // Stop any playing audio before moving to the next page
+
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      } else {
+        document.querySelector('.flipbook').style.display = 'none';
+        document.getElementById('final-scene').style.display = 'flex';
+      }
+    }
+
+    function prevPage() {
+      stopAudio(); // Stop any playing audio before moving to the previous page
+
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    function playSadAudio() {
+      const audio = document.getElementById('cryAudio');
+      stopAudio(); // Stop any previous audio before playing sad audio
+      audio.play();
+      audio.onended = () => {
+        window.location.href = "next.html"; // Change to your actual page
+      };
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      showPage(0);
+    });
+  </script>
+
+</body>
+</html>
