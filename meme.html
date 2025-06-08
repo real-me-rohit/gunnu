@@ -121,12 +121,23 @@
   <script>
     const pages = document.querySelectorAll('.page');
     let currentPage = 0;
-    let currentAudio = null; // Keep track of the current playing audio
 
-    function stopAudio() {
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
+    // Function to stop all audio (video & audio elements)
+    function stopAllAudio() {
+      // Stop all videos
+      pages.forEach(page => {
+        const video = page.querySelector('video');
+        if (video && !video.paused) {
+          video.pause();
+          video.currentTime = 0; // Reset to the beginning
+        }
+      });
+
+      // Stop any other audio
+      const cryAudio = document.getElementById('cryAudio');
+      if (cryAudio && !cryAudio.paused) {
+        cryAudio.pause();
+        cryAudio.currentTime = 0; // Reset to the beginning
       }
     }
 
@@ -146,7 +157,7 @@
     }
 
     function nextPage() {
-      stopAudio(); // Stop any playing audio before moving to the next page
+      stopAllAudio(); // Stop all audio before switching pages
 
       if (currentPage < pages.length - 1) {
         currentPage++;
@@ -158,7 +169,7 @@
     }
 
     function prevPage() {
-      stopAudio(); // Stop any playing audio before moving to the previous page
+      stopAllAudio(); // Stop all audio before switching pages
 
       if (currentPage > 0) {
         currentPage--;
@@ -167,8 +178,9 @@
     }
 
     function playSadAudio() {
+      stopAllAudio(); // Stop any current audio before playing sad audio
+
       const audio = document.getElementById('cryAudio');
-      stopAudio(); // Stop any previous audio before playing sad audio
       audio.play();
       audio.onended = () => {
         window.location.href = "next.html"; // Change to your actual page
