@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Enter Password</title>
   <style>
     body {
@@ -10,31 +11,39 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
       text-align: center;
+      padding: 20px;
     }
 
     .container {
       background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
+      padding: 2rem;
       border-radius: 15px;
       backdrop-filter: blur(8px);
-      width: 90%;
+      width: 100%;
       max-width: 400px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
 
+    h2 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
     input[type="password"] {
-      padding: 12px;
+      padding: 0.75rem;
       width: 100%;
       border-radius: 10px;
       border: none;
       outline: none;
-      font-size: 16px;
-      margin-top: 20px;
-      transition: 0.2s;
+      font-size: 1rem;
+      margin-top: 1rem;
     }
 
     .shake {
@@ -50,21 +59,21 @@
     }
 
     button {
-      margin-top: 20px;
-      padding: 12px;
+      margin-top: 1rem;
+      padding: 0.75rem;
       width: 100%;
       border: none;
       border-radius: 10px;
       background: #fff;
       color: #2a5298;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 1rem;
       cursor: pointer;
     }
 
     .message, .hint, .hint-card {
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 1rem;
+      font-size: 0.9rem;
       color: yellow;
     }
 
@@ -82,8 +91,8 @@
       background: rgba(255, 255, 255, 0.9);
       color: #222;
       border-radius: 10px;
-      padding: 15px;
-      margin-top: 20px;
+      padding: 1rem;
+      margin-top: 1rem;
     }
 
     .hint-card img {
@@ -91,15 +100,37 @@
       border-radius: 10px;
       margin-bottom: 10px;
     }
+
+    img.gif {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p, button, input[type="password"] {
+        font-size: 0.9rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h2>Just One Step</h2>
     <p>Enter the secret password</p>
 
     <!-- ❤️ Romantic GIF added here -->
-    <img src="./library/cute kitty.gif" alt="Romantic GIF" style="width: 100%; max-width: 200px; border-radius: 12px; margin-bottom: 15px;" />
+    <img src="./library/cute kitty.gif" alt="Romantic GIF" class="gif" />
 
     <input type="password" id="password" placeholder="Type here..." onkeydown="checkEnter(event)" />
     <button onclick="checkPassword()">Unlock</button>
@@ -115,78 +146,61 @@
   <!-- Audio Elements -->
   <audio id="wrongSound" src="./library/wronganswer-37702 (1).mp3" preload="auto"></audio>
   <audio id="correctSound" src="./library/reelaudio-63746-rikywyqv_c0KwbOS6.mp3" preload="auto"></audio>
-  
-  <!-- 🌹 Background Romantic Music -->
   <audio id="bgMusic" src="./library/Soch na sake  cover by subodh kc X verse fusion.mp3" autoplay loop preload="auto"></audio>
 
   <script>
-  let attempts = 0;
-  const bgMusic = document.getElementById("bgMusic");
+    let attempts = 0;
+    const bgMusic = document.getElementById("bgMusic");
 
-  // Autoplay workaround: play background music on first interaction
-  function enableMusicAutoplay() {
-    bgMusic.play().catch(() => {
-      // Autoplay might still fail silently, handled here
-      console.log("Autoplay blocked. Will retry on user interaction.");
-    });
+    // Autoplay workaround
+    function enableMusicAutoplay() {
+      bgMusic.play().catch(() => {});
+      document.removeEventListener("click", enableMusicAutoplay);
+      document.removeEventListener("keydown", enableMusicAutoplay);
+    }
 
-    // Only run once
-    document.removeEventListener("click", enableMusicAutoplay);
-    document.removeEventListener("keydown", enableMusicAutoplay);
-  }
+    document.addEventListener("click", enableMusicAutoplay);
+    document.addEventListener("keydown", enableMusicAutoplay);
 
-  // Attach autoplay trigger
-  document.addEventListener("click", enableMusicAutoplay);
-  document.addEventListener("keydown", enableMusicAutoplay);
+    function checkPassword() {
+      const inputField = document.getElementById("password");
+      const password = inputField.value.trim().toLowerCase();
+      const correctPassword = "gunjan lawdi";
 
-  function checkPassword() {
-    const inputField = document.getElementById("password");
-    const password = inputField.value.trim().toLowerCase();
-    const correctPassword = "gunjan lawdi";
+      const message = document.getElementById("message");
+      const hint = document.getElementById("hint");
+      const hintCard = document.getElementById("hintCard");
+      const wrongSound = document.getElementById("wrongSound");
+      const correctSound = document.getElementById("correctSound");
 
-    const message = document.getElementById("message");
-    const hint = document.getElementById("hint");
-    const hintCard = document.getElementById("hintCard");
-    const wrongSound = document.getElementById("wrongSound");
-    const correctSound = document.getElementById("correctSound");
+      if (password === correctPassword) {
+        message.textContent = "Correct password! Playing audio...";
+        correctSound.play();
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
 
-    if (password === correctPassword.toLowerCase()) {
-      message.textContent = "Correct password! Playing audio...";
-      correctSound.play();
+        correctSound.onended = () => {
+          window.location.href = "sorry.html";
+        };
+      } else {
+        attempts++;
+        wrongSound.play();
+        inputField.classList.add("shake");
+        setTimeout(() => inputField.classList.remove("shake"), 300);
+        message.textContent = `Wrong password: "${inputField.value}"`;
+        inputField.value = "";
 
-      // Stop background music
-      bgMusic.pause();
-      bgMusic.currentTime = 0;
-
-      // Redirect after audio finishes
-      correctSound.onended = () => {
-        window.location.href = "sorry.html";
-      };
-
-    } else {
-      attempts++;
-      wrongSound.play();
-      inputField.classList.add("shake");
-      setTimeout(() => inputField.classList.remove("shake"), 300);
-      message.textContent = `Wrong password: "${inputField.value}"`;
-      inputField.value = "";
-
-      if (attempts === 1) {
-        hint.classList.add("visible");
-      }
-
-      if (attempts === 2) {
-        hintCard.style.display = "block";
+        if (attempts === 1) hint.classList.add("visible");
+        if (attempts === 2) hintCard.style.display = "block";
       }
     }
-  }
 
-  function checkEnter(event) {
-    if (event.key === "Enter") {
-      checkPassword();
+    function checkEnter(event) {
+      if (event.key === "Enter") {
+        checkPassword();
+      }
     }
-  }
-</script>
+  </script>
 
 </body>
 </html>
