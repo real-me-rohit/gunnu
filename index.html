@@ -97,6 +97,10 @@
   <div class="container">
     <h2>Just One Step</h2>
     <p>Enter the secret password</p>
+
+    <!-- ❤️ Romantic GIF added here -->
+    <img src="./library/cute kitty.gif" alt="Romantic GIF" style="width: 100%; max-width: 200px; border-radius: 12px; margin-bottom: 15px;" />
+
     <input type="password" id="password" placeholder="Type here..." onkeydown="checkEnter(event)" />
     <button onclick="checkPassword()">Unlock</button>
     <p id="message" class="message"></p>
@@ -111,53 +115,78 @@
   <!-- Audio Elements -->
   <audio id="wrongSound" src="./library/wronganswer-37702 (1).mp3" preload="auto"></audio>
   <audio id="correctSound" src="./library/reelaudio-63746-rikywyqv_c0KwbOS6.mp3" preload="auto"></audio>
+  
+  <!-- 🌹 Background Romantic Music -->
+  <audio id="bgMusic" src="./library/Soch na sake  cover by subodh kc X verse fusion.mp3" autoplay loop preload="auto"></audio>
 
   <script>
-    let attempts = 0;
+  let attempts = 0;
+  const bgMusic = document.getElementById("bgMusic");
 
-    function checkPassword() {
-      const inputField = document.getElementById("password");
-      const password = inputField.value.trim().toLowerCase();
-      const correctPassword = "gunjan lawdi";
+  // Autoplay workaround: play background music on first interaction
+  function enableMusicAutoplay() {
+    bgMusic.play().catch(() => {
+      // Autoplay might still fail silently, handled here
+      console.log("Autoplay blocked. Will retry on user interaction.");
+    });
 
-      const message = document.getElementById("message");
-      const hint = document.getElementById("hint");
-      const hintCard = document.getElementById("hintCard");
-      const wrongSound = document.getElementById("wrongSound");
-      const correctSound = document.getElementById("correctSound");
+    // Only run once
+    document.removeEventListener("click", enableMusicAutoplay);
+    document.removeEventListener("keydown", enableMusicAutoplay);
+  }
 
-      if (password === correctPassword.toLowerCase()) {
-        message.textContent = "Correct password! Playing audio...";
-        correctSound.play();
+  // Attach autoplay trigger
+  document.addEventListener("click", enableMusicAutoplay);
+  document.addEventListener("keydown", enableMusicAutoplay);
 
-        // Wait for audio to finish before redirecting
-        correctSound.onended = () => {
-          window.location.href = "sorry.html";
-        };
+  function checkPassword() {
+    const inputField = document.getElementById("password");
+    const password = inputField.value.trim().toLowerCase();
+    const correctPassword = "gunjan lawdi";
 
-      } else {
-        attempts++;
-        wrongSound.play();
-        inputField.classList.add("shake");
-        setTimeout(() => inputField.classList.remove("shake"), 300);
-        message.textContent = `Wrong password: "${inputField.value}"`;
-        inputField.value = "";
+    const message = document.getElementById("message");
+    const hint = document.getElementById("hint");
+    const hintCard = document.getElementById("hintCard");
+    const wrongSound = document.getElementById("wrongSound");
+    const correctSound = document.getElementById("correctSound");
 
-        if (attempts === 1) {
-          hint.classList.add("visible");
-        }
+    if (password === correctPassword.toLowerCase()) {
+      message.textContent = "Correct password! Playing audio...";
+      correctSound.play();
 
-        if (attempts === 2) {
-          hintCard.style.display = "block";
-        }
+      // Stop background music
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+
+      // Redirect after audio finishes
+      correctSound.onended = () => {
+        window.location.href = "sorry.html";
+      };
+
+    } else {
+      attempts++;
+      wrongSound.play();
+      inputField.classList.add("shake");
+      setTimeout(() => inputField.classList.remove("shake"), 300);
+      message.textContent = `Wrong password: "${inputField.value}"`;
+      inputField.value = "";
+
+      if (attempts === 1) {
+        hint.classList.add("visible");
+      }
+
+      if (attempts === 2) {
+        hintCard.style.display = "block";
       }
     }
+  }
 
-    function checkEnter(event) {
-      if (event.key === "Enter") {
-        checkPassword();
-      }
+  function checkEnter(event) {
+    if (event.key === "Enter") {
+      checkPassword();
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
