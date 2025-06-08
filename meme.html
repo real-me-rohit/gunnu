@@ -15,10 +15,11 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      padding: 20px;
     }
 
     .flipbook {
-      width: 90%;
+      width: 100%;
       max-width: 600px;
       height: auto;
       position: relative;
@@ -70,12 +71,14 @@
       flex-direction: column;
       align-items: center;
       margin-top: 20px;
+      text-align: center;
     }
 
     .final-btns {
       margin-top: 15px;
       display: flex;
       gap: 15px;
+      flex-direction: column;
     }
 
     .final-btns button {
@@ -86,6 +89,60 @@
 
     audio {
       display: none;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .flipbook {
+        max-width: 90%;
+      }
+
+      video {
+        max-height: 60vh;
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .final-btns button {
+        width: 100%;
+        padding: 10px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      video {
+        max-height: 50vh;
+      }
+
+      .flipbook {
+        max-width: 100%;
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 8px 15px;
+      }
+
+      .final-btns button {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
     }
   </style>
 </head>
