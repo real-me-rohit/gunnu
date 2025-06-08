@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>I’m Really Sorry</title>
@@ -15,6 +16,19 @@
       align-items: center;
       color: #fff;
       overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gif {
+      width: 300px;
+      margin-bottom: -6px;
+      border-radius: 15px;
+      animation: fadeIn 2s ease forwards;
     }
 
     .card {
@@ -48,13 +62,27 @@
     }
 
     @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .btn {
@@ -79,7 +107,11 @@
       background-color: #ffe6e6;
     }
 
-    #finalStep, #lastMsg, #afterFinalLine, #shinchanBtn, #finalDecision {
+    #finalStep,
+    #lastMsg,
+    #afterFinalLine,
+    #shinchanBtn,
+    #finalDecision {
       display: none;
     }
 
@@ -98,6 +130,7 @@
     #afterFinalLine {
       font-size: 20px;
       margin-top: 20px;
+      color: #ffdada;
     }
 
     #shinchanBtn {
@@ -112,9 +145,17 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     audio {
@@ -122,34 +163,43 @@
     }
   </style>
 </head>
+
 <body>
 
-  <div class="card">
-    <div class="heart">💔</div>
-    <h1>I’m Sorry...</h1>
-    <p>I never meant to hurt you. I was foolish and didn’t realize how much you matter to me. Please forgive me if you can.</p>
+  <div class="container">
+    <!-- GIF above the card -->
+    <img src="./library/doesh.gif" alt="Sorry GIF" class="gif" />
 
-    <div id="firstButtons">
-      <button class="btn" onclick="startFinalStep()">NO</button>
-      <button class="btn" onclick="okClick()">OK I Forgive</button>
+    <div class="card">
+      <div class="heart">💔</div>
+      <h1>I’m Sorry...</h1>
+      <p> Since the day you blocked me, i got a instant regret, regret to hurt you. I know i should not do that, but you
+        know me right, i'm a bit annoying, but that's what make me unique. I roasts you, irritates you doesn't means i
+        hate you personally, the truth is, i don't know how to express felling to cute ladizzz(not you but yahan
+        consider kr lete hai, mjak tha😭) </p>
+
+      <div id="firstButtons">
+        <button class="btn" onclick="startFinalStep()">NO</button>
+        <button class="btn" onclick="okClick()">OK I Forgive</button>
+      </div>
+
+      <div id="finalStep">
+        <div id="lastMsg"></div>
+        <button class="btn" onclick="okClick()">OK I Forgive</button>
+        <button class="btn" onclick="nextNo()">NO</button>
+      </div>
+
+      <div id="afterFinalLine">
+        <p>Abhi bhi nahi manogi?</p>
+      </div>
+
+      <div id="finalDecision">
+        <button class="btn" onclick="showShinchan()">NO</button>
+        <button class="btn" onclick="okClick()">Will think about it</button>
+      </div>
+
+      <div id="shinchanBtn" onclick="playShinchanAudio()"></div>
     </div>
-
-    <div id="finalStep">
-      <div id="lastMsg"></div>
-      <button class="btn" onclick="okClick()">OK I Forgive</button>
-      <button class="btn" onclick="nextNo()">NO</button>
-    </div>
-
-    <div id="afterFinalLine">
-      <p>Abhi bhi nahi manogi?</p>
-    </div>
-
-    <div id="finalDecision">
-      <button class="btn" onclick="showShinchan()">NO</button>
-      <button class="btn" onclick="okClick()">Will think about it</button>
-    </div>
-
-    <div id="shinchanBtn" onclick="playShinchanAudio()"></div>
   </div>
 
   <audio id="song1" loop>
@@ -210,10 +260,17 @@
     }
 
     function playShinchanAudio() {
-      const audio = document.getElementById('shinchanAudio');
-      audio.play();
+      const bgAudio = document.getElementById('song1');
+      const shinchanAudio = document.getElementById('shinchanAudio');
 
-      audio.onended = () => {
+      // Stop background music
+      bgAudio.pause();
+      bgAudio.currentTime = 0;
+
+      // Play Shinchan audio
+      shinchanAudio.play();
+
+      shinchanAudio.onended = () => {
         window.location.href = 'meme.html';
       };
     }
@@ -229,4 +286,5 @@
   </script>
 
 </body>
+
 </html>
