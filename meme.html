@@ -15,11 +15,10 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
-      padding: 20px;
     }
 
     .flipbook {
-      width: 100%;
+      width: 90%;
       max-width: 600px;
       height: auto;
       position: relative;
@@ -71,14 +70,12 @@
       flex-direction: column;
       align-items: center;
       margin-top: 20px;
-      text-align: center;
     }
 
     .final-btns {
       margin-top: 15px;
       display: flex;
       gap: 15px;
-      flex-direction: column;
     }
 
     .final-btns button {
@@ -91,59 +88,35 @@
       display: none;
     }
 
-    /* Responsive styles */
-    @media (max-width: 768px) {
-      .flipbook {
-        max-width: 90%;
-      }
 
-      video {
-        max-height: 80vh;
-      }
+@media (max-width: 900px) {
+  .flipbook {
+    max-width: 100%;
+  }
 
-      .nav-buttons {
-        flex-direction: column;
-        gap: 10px;
-      }
+  video {
+    max-height: 50vh;
+  }
 
-      button {
-        width: 100%;
-      }
+  .nav-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-      .final-btns button {
-        width: 100%;
-        padding: 10px 15px;
-      }
-    }
+  .nav-buttons button {
+    width: 100%;
+  }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 10px;
-      }
+  .final-btns {
+    width: 100%;
+  }
 
-      video {
-        max-height: 90vh; /* Increase video height on smaller screens */
-      }
+  .final-btns button {
+    width: 100%;
+  }
+}
 
-      .flipbook {
-        max-width: 100%;
-      }
 
-      .nav-buttons {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      button {
-        font-size: 14px;
-        padding: 8px 15px;
-      }
-
-      .final-btns button {
-        font-size: 14px;
-        padding: 10px 15px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -155,8 +128,14 @@
     <div class="page">
       <video id="vid2" src="./library/video2.mp4" autoplay controls playsinline></video>
     </div>
-      <div class="page">
-      <video id="vid3" src="./library/sharukh.mp4" autoplay controls playsinline></video>
+    <div class="page">
+      <video id="vid3" src="./library/meme1.mp4" autoplay controls playsinline></video>
+    </div>
+    <div class="page">
+      <video id="vid4" src="./library/sharukh.mp4" autoplay controls playsinline></video>
+    </div>
+    <div class="page">
+      <video id="vid5" src="./library/meme2.mp4" autoplay controls playsinline></video>
     </div>
 
     <div class="nav-buttons" id="navBtns">
@@ -243,7 +222,7 @@
       const audio = document.getElementById('cryAudio');
       audio.play();
       audio.onended = () => {
-        window.location.href = "next.html"; // Change to your actual page
+        window.location.href = "poetry.html"; // Change to your actual page
       };
     }
 
