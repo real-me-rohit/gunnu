@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>I’m Really Sorry</title>
@@ -62,27 +61,13 @@
     }
 
     @keyframes beat {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.2);
-      }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .btn {
@@ -107,11 +92,7 @@
       background-color: #ffe6e6;
     }
 
-    #finalStep,
-    #lastMsg,
-    #afterFinalLine,
-    #shinchanBtn,
-    #finalDecision {
+    #finalStep, #lastMsg, #afterFinalLine, #shinchanBtn, #finalDecision, #backButton {
       display: none;
     }
 
@@ -145,146 +126,188 @@
     }
 
     @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.1);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
-    audio {
+    audio { display: none; }
+
+    #apologyVideo {
+      display: none;
+      width: 640px;
+      height: 360px;
+      margin: 20px auto 0;
+      border-radius: 15px;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: 1;
+      background-color: black;
+    }
+
+    #backButton {
+      margin-top: 10px;
       display: none;
     }
   </style>
 </head>
-
 <body>
+<div class="container" id="mainContainer">
+  <img src="./library/doesh.gif" alt="Sorry GIF" class="gif" />
+  <div class="card" id="mainCard">
+    <div class="heart">💔</div>
+    <h1>I’m Sorry...</h1>
+    <p> Since the day you blocked me, I felt bad right away. I didn’t mean to hurt you. I know I shouldn’t have done that, but you know me… I’m a bit annoying sometimes — that’s just how I am. I tease you, roast you, irritate you, but that doesn’t mean I hate you. The truth is, I’m just bad at showing my feelings… especially in front of cute girls. Not saying it’s you… chalo thode pal ke liye maan lete hai😭.</p>
 
-  <div class="container">
-    <!-- GIF above the card -->
-    <img src="./library/doesh.gif" alt="Sorry GIF" class="gif" />
-
-    <div class="card">
-      <div class="heart">💔</div>
-      <h1>I’m Sorry...</h1>
-      <p> Since the day you blocked me, I felt bad right away. I didn’t mean to hurt you. I know I shouldn’t have done
-        that, but you know me… I’m a bit annoying sometimes — that’s just how I am. I tease you, roast you, irritate
-        you, but that doesn’t mean I hate you. The truth is, I’m just bad at showing my feelings… especially in front of
-        cute girls. Not saying it’s you… chalo thode pal ke liye maan lete hai😭.</p>
-
-      <div id="firstButtons">
-        <button class="btn" onclick="startFinalStep()">NO</button>
-        <button class="btn" onclick="okClick()">OK I Forgive</button>
-      </div>
-
-      <div id="finalStep">
-        <div id="lastMsg"></div>
-        <button class="btn" onclick="okClick()">OK I Forgive</button>
-        <button class="btn" onclick="nextNo()">NO</button>
-      </div>
-
-      <div id="afterFinalLine">
-        <p>Abhi bhi nahi manogi?</p>
-      </div>
-
-      <div id="finalDecision">
-        <button class="btn" onclick="showShinchan()">NO</button>
-        <button class="btn" onclick="okClick()">Will think about it</button>
-      </div>
-
-      <div id="shinchanBtn" onclick="playShinchanAudio()"></div>
+    <div id="firstButtons">
+      <button class="btn" onclick="startFinalStep()">NO</button>
+      <button class="btn" onclick="showVideo('firstButtons')">OK I Forgive</button>
     </div>
+
+    <div id="finalStep">
+      <div id="lastMsg"></div>
+      <button class="btn" onclick="showVideo('finalStep')">OK I Forgive</button>
+      <button class="btn" onclick="nextNo()">NO</button>
+    </div>
+
+    <div id="afterFinalLine">
+      <p>Abhi bhi nahi manogi?</p>
+    </div>
+
+    <div id="finalDecision">
+      <button class="btn" onclick="showShinchan()">NO</button>
+      <button class="btn" onclick="showVideo('finalDecision')">Will think about it</button>
+    </div>
+
+    <div id="shinchanBtn" onclick="playShinchanAudio()"></div>
+
+    <video id="apologyVideo" autoplay loop muted playsinline>
+      <source src="./library/assitussi.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <button id="backButton" class="btn" onclick="goBack()">Back</button>
   </div>
+</div>
 
-  <audio id="song1" loop>
-    <source src="./library/song1.mp3" type="audio/mpeg">
-  </audio>
+<audio id="song1">
+  <source src="./library/song1.mp3" type="audio/mpeg">
+</audio>
 
-  <audio id="shinchanAudio">
-    <source src="./library/anime-ahh.mp3" type="audio/mpeg">
-  </audio>
+<audio id="shinchanAudio">
+  <source src="./library/anime-ahh.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    let noClickCount = 0;
+<script>
+  let noClickCount = 0;
+  const messages = [
+    "Please, ek baar...",
+    "Manta hun meri galti thi, maaf kr do please😔",
+    "Itna bhi kya gussa krna ab🪲",
+    "Maaf kr do please🧵",
+    "Ab se aisa nhi karunga, pakka😔🙏",
+    "Last time... please 🥺🧴"
+  ];
 
-    const messages = [
-      "Please, ek baar...",
-      "Manta hun meri galti thi, maaf kr do please😔",
-      "Itna bhi kya gussa krna ab🥲",
-      "Maaf kr do please😥",
-      "Ab se aisa nhi karunga, pakka😔🙏",
-      "Last time... please 🥺🫴"
-    ];
+  let lastSectionId = "";
+  let backgroundPausedAt = 0;
 
-    function okClick() {
-      alert("Thank you for understanding 🥺");
+  function startFinalStep() {
+    lastSectionId = "firstButtons";
+    document.getElementById('firstButtons').style.display = 'none';
+    document.getElementById('finalStep').style.display = 'block';
+    showMessage(0);
+  }
+
+  function nextNo() {
+    noClickCount++;
+    if (noClickCount < messages.length) {
+      showMessage(noClickCount);
+    } else {
+      document.getElementById('finalStep').style.display = 'none';
+      document.getElementById('lastMsg').innerText = '';
+      document.getElementById('afterFinalLine').style.display = 'block';
+      document.getElementById('finalDecision').style.display = 'block';
+      lastSectionId = "finalStep";
     }
+  }
 
-    function startFinalStep() {
-      document.getElementById('firstButtons').style.display = 'none';
-      document.getElementById('finalStep').style.display = 'block';
-      showMessage(0);
-    }
+  function showMessage(index) {
+    const msgBox = document.getElementById('lastMsg');
+    msgBox.classList.remove('show');
+    setTimeout(() => {
+      msgBox.innerText = messages[index];
+      msgBox.classList.add('show');
+      msgBox.style.display = 'block';
+    }, 100);
+  }
 
-    function nextNo() {
-      noClickCount++;
-      if (noClickCount < messages.length) {
-        showMessage(noClickCount);
-      } else {
-        document.getElementById('finalStep').style.display = 'none';
-        document.getElementById('lastMsg').innerText = '';
+  function showShinchan() {
+    document.getElementById('finalDecision').style.display = 'none';
+    document.getElementById('shinchanBtn').style.display = 'block';
+  }
+
+  function playShinchanAudio() {
+    const bgAudio = document.getElementById('song1');
+    const shinchanAudio = document.getElementById('shinchanAudio');
+    bgAudio.pause();
+    bgAudio.currentTime = 0;
+    shinchanAudio.play();
+    shinchanAudio.onended = () => {
+      window.location.href = 'meme.html';
+    };
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const song1 = document.getElementById('song1');
+    song1.volume = 0.5;
+    song1.play().catch(() => {
+      document.body.addEventListener('click', () => song1.play(), { once: true });
+    });
+  });
+
+  function stopBackgroundMusic() {
+    const song = document.getElementById('song1');
+    backgroundPausedAt = song.currentTime;
+    song.pause();
+  }
+
+  function resumeBackgroundMusic() {
+    const song = document.getElementById('song1');
+    song.currentTime = backgroundPausedAt;
+    song.play();
+  }
+
+  function showVideo(callerSectionId) {
+    lastSectionId = callerSectionId;
+    document.getElementById(callerSectionId).style.display = 'none';
+    document.getElementById('afterFinalLine').style.display = 'none';
+    stopBackgroundMusic();
+    const video = document.getElementById("apologyVideo");
+    video.style.display = "block";
+    video.muted = false;
+    video.play();
+    setTimeout(() => {
+      document.getElementById('backButton').style.display = 'inline-block';
+    }, 7000);
+  }
+
+  function goBack() {
+    const video = document.getElementById('apologyVideo');
+    video.pause();
+    video.style.display = 'none';
+    document.getElementById('backButton').style.display = 'none';
+    if (lastSectionId) {
+      document.getElementById(lastSectionId).style.display = 'block';
+      if (lastSectionId === "finalStep") {
+        document.getElementById('lastMsg').classList.add('show');
+      }
+      if (lastSectionId === "finalDecision") {
         document.getElementById('afterFinalLine').style.display = 'block';
-        document.getElementById('finalDecision').style.display = 'block';
       }
     }
-
-    function showMessage(index) {
-      const msgBox = document.getElementById('lastMsg');
-      msgBox.classList.remove('show');
-      setTimeout(() => {
-        msgBox.innerText = messages[index];
-        msgBox.classList.add('show');
-        msgBox.style.display = 'block';
-      }, 100);
-    }
-
-    function showShinchan() {
-      document.getElementById('finalDecision').style.display = 'none';
-      document.getElementById('shinchanBtn').style.display = 'block';
-    }
-
-    function playShinchanAudio() {
-      const bgAudio = document.getElementById('song1');
-      const shinchanAudio = document.getElementById('shinchanAudio');
-
-      // Stop background music
-      bgAudio.pause();
-      bgAudio.currentTime = 0;
-
-      // Play Shinchan audio
-      shinchanAudio.play();
-
-      shinchanAudio.onended = () => {
-        window.location.href = 'meme.html';
-      };
-    }
-
-    // Autoplay background music
-    window.addEventListener('DOMContentLoaded', () => {
-      const song1 = document.getElementById('song1');
-      song1.volume = 0.5;
-      song1.play().catch(() => {
-        document.body.addEventListener('click', () => song1.play(), { once: true });
-      });
-    });
-  </script>
-
+    resumeBackgroundMusic();
+  }
+</script>
 </body>
-
 </html>
