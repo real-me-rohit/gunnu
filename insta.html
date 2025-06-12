@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instagram Profile UI Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 40px;
+    }
+
+    .container {
+      width: 360px;
+      background-color: #000;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .arrow,
+    .menu {
+      font-size: 22px;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+
+    .username {
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #333;
+      flex-shrink: 0;
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      gap: 12px;
+    }
+
+    .stat {
+      text-align: center;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .stat span {
+      display: block;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-unblock {
+      background-color: #3797ff;
+      color: #fff;
+    }
+
+    .btn-message {
+      background-color: #262626;
+      color: #fff;
+    }
+
+    .gif-box {
+      margin-top: 20px;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .gif-box img {
+      width: 90%;
+      /* height: auto; */
+      display: block;
+      border-radius: 50px;
+      bottom: 90px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="top-bar">
+      <div class="arrow" onclick="history.back()">&#8592;</div>
+      <div class="username">peace_.in_pieces</div>
+      <div class="menu">&#8942;</div>
+    </div>
+
+    <div class="profile-header">
+      <div class="profile-pic">
+        <img src="./library/eye.jpeg" alt="Profile Pic">
+      </div>
+      <div class="stats">
+        <div class="stat"><span>0</span>posts</div>
+        <div class="stat"><span>0</span>followers</div>
+        <div class="stat"><span>0</span>following</div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-unblock" onclick="unblockUser()">Unblock</button>
+      <button class="btn btn-message" onclick="sendMessage()">Message</button>
+    </div>
+
+    <div class="gif-box">
+      <img src="./library/gunnupic.jpeg" alt="Cute GIF"> 
+      <!-- <img src="./library/cute kitty.gif" alt="Cute GIF"> Replace with your actual gif path -->
+      <!-- <img src="./library/cute kitty.gif" alt="Cute GIF"> Replace with your actual gif path -->
+    </div>
+  </div>
+
+  <script>
+    function unblockUser() {
+      window.location.href = "https://www.instagram.com/peace_.in_pieces/?utm_source=ig_web_button_share_sheet";
+    }
+
+    function sendMessage() {
+      const message = prompt("Type your message to peace_.in_pieces:");
+      if (message) {
+        alert("Message sent: " + message);
+      }
+    }
+  </script>
+
+</body>
+</html>
