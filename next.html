@@ -30,7 +30,26 @@
 </head>
 <body>
 
-  <video src="./library/sorry sorry.mp4" autoplay playsinline controls></video>
+  <!-- Video Element -->
+  <video id="sorryVideo" src="./library/sorry sorry.mp4" autoplay playsinline controls></video>
+
+  <!-- Hidden Audio Element -->
+  <audio id="endingSound" src="./library/magic sound.mp3"></audio>
+
+  <script>
+    const video = document.getElementById('sorryVideo');
+    const audio = document.getElementById('endingSound');
+
+    video.addEventListener('ended', () => {
+      // Play audio
+      audio.play();
+
+      // Wait 2 seconds, then redirect
+      setTimeout(() => {
+        window.location.href = "insta.html";
+      }, 2000);
+    });
+  </script>
 
 </body>
 </html>
