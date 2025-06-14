@@ -1,187 +1,737 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Instagram Profile UI Clone</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Instagram Clone UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       background-color: #000;
-      color: #fff;
-      font-family: 'Roboto', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding-top: 40px;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen;
+      height: 100vh;
+      overflow-x: hidden;
+      padding: 0 10px;
+      /* Add horizontal padding */
     }
 
     .container {
-      width: 360px;
-      background-color: #000;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding-top: 30px;
     }
 
     .top-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
+      padding: 0 16px;
     }
 
-    .arrow,
-    .menu {
-      font-size: 22px;
-      cursor: pointer;
-      padding: 0 10px;
+    .top-bar i {
+      font-size: 24px;
+      margin-right: 10px;
     }
 
     .username {
-      font-size: 18px;
-      font-weight: 500;
-      text-align: center;
-      flex-grow: 1;
+      font-size: 16px;
+      font-weight: bold;
     }
 
-    .profile-header {
+    .profile-row {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
-      gap: 16px;
+      padding: 20px 16px 10px;
     }
 
-    .profile-pic {
-      width: 80px;
-      height: 80px;
+    .gradient-ring {
+      background: conic-gradient(#f58529, #dd2a7b, #8134af, #515bd4, #f58529);
+      padding: 3px;
       border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid #333;
-      flex-shrink: 0;
+      width: 76px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
     }
 
-    .profile-pic img {
-      width: 100%;
-      height: 100%;
+    .gradient-ring img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
       object-fit: cover;
+      border: 2px solid #000;
     }
 
-    .stats {
+    .profile-info {
       display: flex;
       justify-content: space-between;
-      flex-grow: 1;
-      gap: 12px;
+      align-items: center;
+      flex: 1;
+      margin-left: 20px;
     }
 
-    .stat {
+    .stat-block {
       text-align: center;
       font-size: 14px;
-      flex: 1;
-    }
-
-    .stat span {
-      display: block;
-      font-weight: bold;
-      font-size: 16px;
     }
 
     .buttons {
       display: flex;
-      gap: 10px;
-      margin-top: 10px;
+      justify-content: space-evenly;
+      padding: 0 16px;
     }
 
-    .btn {
+    .buttons button {
+      padding: 10px 0;
       flex: 1;
-      padding: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
       font-weight: bold;
+      font-size: 14px;
+      margin: 0 5px;
       cursor: pointer;
-      text-align: center;
+    }
+
+    .unblock-btn {
+      background-color: #3797f0;
+      color: white;
       transition: transform 0.1s ease-in-out;
     }
 
-    .btn:active {
+    .unblock-btn:active {
       transform: scale(0.96);
     }
 
-    .btn-unblock {
-      background-color: #3797ff;
-      color: #fff;
-    }
-
-    .btn-message {
+    .message-btn {
       background-color: #262626;
-      color: #fff;
+      color: white;
+      pointer-events: none;
     }
 
-    .gif-box {
-      margin-top: 20px;
-      width: 100%;
-      border-radius: 10px;
+    .story-modal {
+      position: fixed;
+      top: 20px;
+      /* Add space from top */
+      left: 0;
+      width: 100vw;
+      height: calc(100vh - 40px);
+      /* Account for spacing */
+      background-color: rgba(0, 0, 0, 0.95);
+      display: none;
+      flex-direction: column;
+      z-index: 999;
+      padding: 0 10px;
+      border-radius: 12px;
+      /* Add border radius */
       overflow: hidden;
     }
 
-    .gif-box img {
+
+    .story-progress {
+      height: 3px;
+      width: 100%;
+      background-color: #444;
+      border-radius: 2px;
+      /* Rounded corners */
+    }
+
+    .story-progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: white;
+      transition: width linear;
+      border-radius: 2px;
+      /* Rounded corners */
+    }
+
+    .story-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .story-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .story-info img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      margin-right: 10px;
+    }
+
+    .story-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      color: #aaa;
+      margin-left: 6px;
+    }
+
+    .three-dots {
+      font-size: 20px;
+      transform: rotate(90deg);
+      color: #fff;
+    }
+
+    .story-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .story-image img {
+      max-width: 90vw;
+      max-height: 75vh;
+      border-radius: 10px;
+    }
+
+    .story-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+    }
+
+    .story-footer .input-box {
+      flex: 1;
+      margin-right: 10px;
+      background-color: #262626;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 15px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .icon-button:active {
+      transform: scale(1.3);
+    }
+
+    .liked {
+      color: red;
+    }
+
+    .unblock-btn {
+      background-color: #3797f0;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 6px;
+      padding: 10px 0;
+      margin: 0 5px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      flex: 1;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    .unblock-btn:active {
+      transform: scale(0.96);
+    }
+
+    .shadow-divider {
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.1));
+      box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3);
+      margin-top: 1px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: black;
+      padding: 12px 0;
+      border-top: 1px solid #333;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 90%;
-      /* height: auto; */
+      max-width: 360px;
+    }
+
+    .nav-wrapper i {
+      font-size: 24px;
+      color: white;
+      opacity: 0.9;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-wrapper i:active {
+      transform: scale(1.2);
+    }
+
+
+    .profile-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+
+    .profile-tab-icons {
+      position: relative;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      margin-top: 10px;
+    }
+
+    .profile-tab-icons i {
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tab-underline {
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      width: 52px;
+      background-color: white;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      z-index: 1;
+    }
+
+    .profile-tab-icons i.active {
+      color: white;
+    }
+
+    /* .profile-tab-icons i.active::after {
+  content: "";
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 2px;
+  background-color: white;
+  border-radius: 1px;
+    transition: all 0.3s ease;
+} */
+
+    .tab-content-wrapper {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      margin-top: 80px;
+    }
+
+
+    .tab-content {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 24px;
+      transition: left 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      left: 100%;
+    }
+
+
+    .tab-content.active {
+      left: 0;
+      opacity: 1;
+    }
+
+    .tab-content.exit-left {
+      left: -100%;
+      opacity: 0;
+    }
+
+    .tab-content.exit-right {
+      left: 100%;
+      opacity: 0;
+    }
+
+    .subtext {
+      font-size: 14px;
+      opacity: 0.5;
+      margin-top: 10px;
+    }
+
+
+    /* #storyImage,
+#storyVideo {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  position: relative;
+} */
+    /* 
+@media (min-width: 768px) {
+  #storyImage,
+  #storyVideo {
+    width: 320px;
+    height: auto;
+  }
+} */
+
+
+    #storyImage,
+    #storyVideo {
+      width: 320px;
+      height: 568px;
+      object-fit: contain;
+      border-radius: 16px;
       display: block;
-      border-radius: 50px;
-      bottom: 90px;
+      position: relative;
+    }
+
+    @media (max-width: 480px) {
+
+      #storyImage,
+      #storyVideo {
+        width: 100vw;
+        height: calc(100vw * 16 / 9);
+      }
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="container">
     <div class="top-bar">
-      <div class="arrow" onclick="history.back()">&#8592;</div>
+      <i>&larr;</i>
       <div class="username">peace_.in_pieces</div>
-      <div class="menu">&#8942;</div>
     </div>
 
-    <div class="profile-header">
-      <div class="profile-pic">
-        <img src="./library/eye.jpeg" alt="Profile Pic">
+    <div class="profile-row">
+      <div class="gradient-ring" onclick="showStory()">
+        <img src="./library/eye.jpeg" alt="Eye">
       </div>
-      <div class="stats">
-        <div class="stat"><span>0</span>posts</div>
-        <div class="stat"><span>0</span>followers</div>
-        <div class="stat"><span>0</span>following</div>
+      <div class="profile-info">
+        <div class="stat-block"><strong>0</strong><br>posts</div>
+        <div class="stat-block"><strong>0</strong><br>followers</div>
+        <div class="stat-block"><strong>0</strong><br>following</div>
       </div>
     </div>
 
     <div class="buttons">
-      <button class="btn btn-unblock" onclick="unblockUser()">Unblock</button>
-      <button class="btn btn-message" onclick="sendMessage()">Message</button>
+      <a href="https://www.instagram.com/peace_.in_pieces?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+        target="_blank" class="unblock-btn">Unblock</a>
+      <button class="message-btn">Message</button>
     </div>
 
-    <div class="gif-box">
-      <img src="./library/gunnupic.jpeg" alt="Cute GIF"> 
-      <!-- <img src="./library/cute kitty.gif" alt="Cute GIF"> Replace with your actual gif path -->
-      <!-- <img src="./library/cute kitty.gif" alt="Cute GIF"> Replace with your actual gif path -->
+    <div class="profile-tab-icons">
+      <i class="fa-solid fa-table-cells active"></i>
+      <i class="fa-solid fa-clapperboard "></i>
+      <i class="fa-solid fa-id-badge"></i>
+      <div class="tab-underline"></div>
+    </div>
+
+
+
+
+    <div class="shadow-divider"></div>
+
+    <div class="tab-content-wrapper">
+      <div class="tab-content active" id="tab1">
+        <div>
+          Capture the moment<br>with a friend
+          <div class="subtext">Can I be your that friend?</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab2">
+        <div>
+          Share a moment with a friend
+          <div class="subtext">Let's first create some memories together</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab3">
+        <div>
+          Photos and<br>videos of you
+          <div class="subtext">I will keep them safe <br>in the godown of my heart</div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+  <div class="story-modal" id="storyModal">
+    <div class="story-progress">
+      <div class="story-progress-bar" id="progressBar"></div>
+    </div>
+    <div class="story-header">
+      <div class="story-info">
+        <img src="./library/eye.jpeg" alt="Eye">
+        <div class="story-meta">
+          <div class="username">peace_.in_pieces</div>
+          <div class="song">‧₊˚♪ 𝄞₊˚⊹ specially designed for you<span class="timestamp">1h</span></div>
+        </div>
+      </div>
+      <div class="three-dots">⋮</div>
+    </div>
+    <div class="story-image">
+      <img id="storyImage" src="./library/gunjanpic.jpeg" alt="Story" style="width: 100%; display: block;" />
+      <video id="storyVideo" src="./library/shaadi.mp4" style="width: 100%; display: none;" playsinline></video>
+    </div>
+
+    <div class="story-footer">
+      <input type="text" class="input-box" placeholder="Message..." readonly>
+
+      <button class="icon-button" id="likeBtn">&#9825;</button>
+      <!-- <button class="icon-button">&#128257;</button> -->
     </div>
   </div>
 
+  <audio id="storyAudio" src="./library/dream girl.mp3"></audio>
+
+  <div class="bottom-nav">
+    <div class="nav-wrapper">
+      <i class="fa-solid fa-house"></i> <!-- Home -->
+      <!-- <i class="fa-regular fa-compass"></i>        Explore -->
+      <i class="fa-solid fa-magnifying-glass"></i> <!-- Explore -->
+      <i class="fa-solid fa-square-plus"></i> <!-- Add -->
+      <i class="fa-solid fa-clapperboard"></i> <!-- Reels -->
+      <!-- <i class="fa-regular fa-paper-plane"></i>    Messages -->
+      <img src="./library/gunnupfp.png" alt="Profile" class="profile-icon">
+    </div>
+  </div>
+
+
+<audio id="bgAudio" src="./library/Chennai Express (Sad Theme).mp3" autoplay loop></audio>
+
+
   <script>
-    function unblockUser() {
-      window.location.href = "https://www.instagram.com/peace_.in_pieces/?utm_source=ig_web_button_share_sheet";
+    const storyModal = document.getElementById('storyModal');
+    
+    const audio = document.getElementById('storyAudio');
+    audio.volume = 1.0; 
+    const bgAudio = document.getElementById('bgAudio');
+
+    const progressBar = document.getElementById('progressBar');
+    const likeBtn = document.getElementById('likeBtn');
+    const bottomNav = document.querySelector('.bottom-nav');
+    const contents = document.querySelectorAll('.tab-content');
+    const tabIcons = document.querySelectorAll('.profile-tab-icons i');
+    const underline = document.querySelector('.tab-underline');
+    const storyImage = document.getElementById('storyImage');
+    const storyVideo = document.getElementById('storyVideo');
+    const storyTitle = document.getElementById('storyTitle');
+    const storyMeta = document.querySelector('.song');
+
+    let currentTabIndex = 0;
+    let startY = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let storyStep = 0; // 0 = image, 1 = video
+    let likedImage = false;
+    let likedVideo = false;
+    let audioEndedNaturally = false;
+
+function showStory() {
+  bgAudio.pause(); // pause background music
+  storyModal.classList.remove('fade-out');
+  storyModal.style.display = 'flex';
+  bottomNav.style.display = 'none';
+  storyStep = 0;
+  showImageStory();
+}
+
+
+    function showImageStory() {
+      audioEndedNaturally = false;
+      audio.currentTime = 0;
+      audio.play();
+      storyImage.style.display = 'block';
+      storyVideo.style.display = 'none';
+      storyTitle.innerText = 'Dream Girl';
+      storyMeta.innerHTML = '🎵 Dream girl<span class="timestamp">1h</span>';
+      likeBtn.classList.remove('liked');
+      likeBtn.classList.toggle('liked', likedImage);
+      likeBtn.innerHTML = likedImage ? '&#10084;' : '&#9825;';
+      progressBar.style.transitionDuration = audio.duration + 's';
+      progressBar.style.width = '100%';
     }
 
-    function sendMessage() {
-      const message = prompt("Type your message to peace_.in_pieces:");
-      if (message) {
-        alert("Message sent: " + message);
+    function showVideoStory() {
+      audio.pause();
+      storyImage.style.display = 'none';
+      storyVideo.style.display = 'block';
+      storyVideo.currentTime = 0;
+      storyVideo.play();
+      storyTitle.innerText = 'Say No to Block';
+      storyMeta.innerHTML = '🎬 Say no to block<span class="timestamp">Just now</span>';
+      likeBtn.classList.remove('liked');
+      likeBtn.classList.toggle('liked', likedVideo);
+      likeBtn.innerHTML = likedVideo ? '&#10084;' : '&#9825;';
+    }
+
+ function closeStory() {
+  storyModal.classList.add('fade-out');
+  audio.pause();
+  storyVideo.pause();
+  bottomNav.style.display = 'flex';
+  setTimeout(() => {
+    storyModal.style.display = 'none';
+    bgAudio.play(); // resume background music
+  }, 500);
+}
+
+
+    audio.addEventListener('ended', () => {
+      audioEndedNaturally = true;
+      storyStep = 1;
+      showVideoStory();
+    });
+
+    storyVideo.addEventListener('ended', () => {
+      closeStory();
+    });
+
+    likeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (storyStep === 0) {
+        likedImage = !likedImage;
+        likeBtn.classList.toggle('liked', likedImage);
+        likeBtn.innerHTML = likedImage ? '&#10084;' : '&#9825;';
+      } else {
+        likedVideo = !likedVideo;
+        likeBtn.classList.toggle('liked', likedVideo);
+        likeBtn.innerHTML = likedVideo ? '&#10084;' : '&#9825;';
+      }
+    });
+
+    storyModal.addEventListener('touchstart', e => {
+      startY = e.touches[0].clientY;
+    });
+
+    storyModal.addEventListener('touchmove', e => {
+      const diffY = e.touches[0].clientY - startY;
+      if (diffY > 80) closeStory();
+    });
+
+    storyModal.addEventListener('click', (e) => {
+      const bounds = storyModal.getBoundingClientRect();
+      const x = e.clientX - bounds.left;
+      const width = bounds.width;
+
+      if (x > width * 0.3 && x < width * 0.7) return;
+
+      if (x >= width * 0.7) {
+        if (storyStep === 0) {
+          audio.pause();
+          storyStep = 1;
+          showVideoStory();
+        } else if (storyStep === 1) {
+          closeStory();
+        }
+      } else if (x <= width * 0.3) {
+        if (storyStep === 1) {
+          storyVideo.pause();
+          storyStep = 0;
+          showImageStory();
+        }
+      }
+    });
+
+    function moveTabUnderline(el) {
+      const parent = document.querySelector('.profile-tab-icons');
+      const rect = el.getBoundingClientRect();
+      const parentRect = parent.getBoundingClientRect();
+      const left = rect.left - parentRect.left + (rect.width - underline.offsetWidth) / 2;
+      underline.style.left = `${left}px`;
+      tabIcons.forEach(icon => icon.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function showTab(index, direction = 'left') {
+      if (index === currentTabIndex || index < 0 || index >= contents.length) return;
+      const current = contents[currentTabIndex];
+      const next = contents[index];
+      current.classList.remove('active');
+      current.classList.add(direction === 'left' ? 'exit-left' : 'exit-right');
+      setTimeout(() => {
+        current.classList.remove('exit-left', 'exit-right');
+        next.classList.add('active');
+        currentTabIndex = index;
+      }, 300);
+    }
+
+    tabIcons.forEach((icon, idx) => {
+      icon.addEventListener('click', () => {
+        moveTabUnderline(icon);
+        showTab(idx, idx > currentTabIndex ? 'left' : 'right');
+      });
+    });
+
+    const contentWrapper = document.querySelector('.tab-content-wrapper');
+
+    contentWrapper.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    contentWrapper.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const delta = touchEndX - touchStartX;
+      if (Math.abs(delta) > 50) {
+        if (delta < 0) showTab(currentTabIndex + 1, 'left');
+        else showTab(currentTabIndex - 1, 'right');
       }
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      contents[0].classList.add('active');
+      const firstIcon = document.querySelector('.profile-tab-icons i.active') || tabIcons[0];
+      if (firstIcon) moveTabUnderline(firstIcon);
+    });
   </script>
 
 </body>
+
 </html>
