@@ -18,7 +18,7 @@
     }
 
     .poem-container {
-      max-width: 785px;
+      max-width: 935px;
       margin: auto;
       padding: 30px 20px;
     }
@@ -35,7 +35,7 @@
       margin: 10px 0;
     }
 
-/*     .ribbon-i {
+    .ribbon-i {
       position: relative;
       display: inline-block;
       font-style: normal;
@@ -52,7 +52,7 @@
       background-size: contain;
       background-repeat: no-repeat;
       transform: rotate(26deg);
-    } */
+    }
 
     img {
       box-shadow: white 1px 1px 30px;
@@ -137,7 +137,7 @@
 <body>
 
   <div class="poem-container" id="mainContent">
-    <h1>Poetry for pookie pyaari💖✨</h1>
+    <h1>Poetry for pookie pyaar<span class="ribbon-i">i💖✨</span></h1>
 
     <img src="./library/poetry.jpeg" alt="Your Cute Pic" />
     <p>khuli aankhon se dekha wo haseen khwaab hai tu</p>
@@ -152,7 +152,7 @@
     <img src="./library/textshot.jpeg" alt="Cute Pic" />
     <p>kr lun agar main baat tumse, ho jata din mera khaas hai tb se</p>
     <p>chup baithun agar main do pal, lgta mujhe phir darr ho jaise,</p>
-    <p> ho jaunga block phir ek baar tum se</p>
+    <p> ho jaunga block phir ek baar tumhi se</p>
     <p>baatein krti jb bhi tu mujhse, lgta bja ho radio kahin phir se</p>
     <p>dekhti tu webseries din bhar, rakhti profile mai Aishwarya hai tu</p>
     <p>ab iss bewakoof ko kon smjhaye, itni bhuri bhi nhi hai tu</p>
@@ -162,7 +162,8 @@
     <button class="reveal-btn" id="revealBtn" onclick="showBox()">Click here</button>
 
     <div class="foldable-box" id="foldBox" style="display: none;">
-      <div class="question">Ab to maaf kr hi do!<br></div>
+      <div class="question" id="forgiveText">Ab to maaf kr hi do!<br></div>
+
 
       <div id="btnGroup">
         <button class="btn btn1" onclick="playVideo()">Ja maaf kiya tujhe</button>
@@ -210,12 +211,13 @@
     function redirect() {
       window.location.href = "next.html";
     }
-
- function playVideo() {
+function playVideo() {
   bgPausedAt = bgAudio.currentTime;
   bgAudio.pause();
 
   document.getElementById("btnGroup").style.display = "none";
+  document.getElementById("forgiveText").style.display = "none"; // Hide the text
+
   const video = document.getElementById("inlineVideoPlayer");
   const videoContainer = document.getElementById("inlineVideoContainer");
 
@@ -223,14 +225,18 @@
   video.muted = false;
   videoContainer.style.display = "flex";
 
-  // Let the DOM update before scrolling
+  // When video ends, show the text again
+  video.onended = () => {
+    document.getElementById("forgiveText").style.display = "block";
+  };
+
   setTimeout(() => {
     video.play();
     window.scrollTo({
       top: document.body.scrollHeight,
       behavior: 'smooth'
     });
-  }, 100); // 100ms delay is usually enough
+  }, 100);
 }
 
 
