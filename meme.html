@@ -4,90 +4,123 @@
   <meta charset="UTF-8" />
   <title>Video Meme Flipbook</title>
   <style>
-    body {
-      margin: 0;
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
+  body {
+  margin: 0;
+  background: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
 
-    .flipbook {
-      width: 90%;
-      max-width: 600px;
-      height: auto;
-      position: relative;
-    }
+.flipbook {
+  width: 95%;
+  max-width: 800px;
+  height: auto;
+  position: relative;
+}
 
-    .page {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+.page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-    .page.active {
-      display: flex;
-    }
+.page.active {
+  display: flex;
+}
 
-    video {
-      width: 100%;
-      max-height: 80vh;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.2);
-    }
+video {
+  width: 100%;
+  max-height: 90vh;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.3);
+}
 
-    .nav-buttons {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-    }
+.nav-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
-    button {
-      background-color: #ff6b6b;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+button {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  font-size: 22px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-    button:hover {
-      background-color: #ff4d4d;
-      transform: scale(1.05);
-    }
+button:hover {
+  background-color: #ff4d4d;
+  transform: scale(1.05);
+}
 
-    #final-scene {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
+#final-scene {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
 
-    .final-btns {
-      margin-top: 15px;
-      display: flex;
-      gap: 15px;
-    }
+#final-scene h2 {
+  font-size: 36px;
+  margin-bottom: 25px;
+  text-align: center;
+}
 
-    .final-btns button {
-      font-size: 15px;
-      border-radius: 20px;
-      padding: 12px 18px;
-    }
+.final-btns {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-    audio {
-      display: none;
-    }
+.final-btns button {
+  font-size: 20px;
+  border-radius: 25px;
+  padding: 14px 22px;
+  min-width: 180px;
+}
 
+#kutteVideoWrapper {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#kutteVideoWrapper video {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+#backBtn {
+  display: none;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+audio {
+  display: none;
+}
 
 @media (max-width: 900px) {
   .flipbook {
@@ -95,24 +128,23 @@
   }
 
   video {
-    max-height: 50vh;
+    max-height: 65vh;
   }
 
   .nav-buttons {
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
   }
 
-  .nav-buttons button {
-    width: 100%;
-  }
-
-  .final-btns {
-    width: 100%;
-  }
-
+  .nav-buttons button,
   .final-btns button {
     width: 100%;
+    font-size: 18px;
+    padding: 14px;
+  }
+
+  #final-scene h2 {
+    font-size: 28px;
   }
 }
 
@@ -148,10 +180,19 @@
   <div id="final-scene">
     <h2>Abhi bhi nahi manogi?</h2>
     <div class="final-btns">
-      <button onclick="alert('Awww 😭 Thank you!')">Ja kutte, maaf kiya tujhe</button>
+      <button onclick="showKutteVideo()">Ja maaf kiya tujhe</button>
+
       <button onclick="playSadAudio()">Still NO</button>
     </div>
   </div>
+
+
+  <div id="kutteVideoWrapper">
+  <video id="kutteVideo" src="./library/monkey.mp4" controls></video>
+  <button id="backBtn" onclick="hideKutteVideo()">Back</button>
+</div>
+
+
 
   <audio id="cryAudio">
     <source src="./library/abe-sale.mp3" type="audio/mpeg" />
@@ -229,6 +270,67 @@
     window.addEventListener('DOMContentLoaded', () => {
       showPage(0);
     });
+
+
+let lastStoryDisplay = null;
+
+function showKutteVideo() {
+  const modal = document.getElementById('storyModal');
+  lastStoryDisplay = modal ? modal.style.display : null;
+  if (modal) modal.style.display = 'none';
+
+
+
+  const headerText = document.querySelector('#final-scene h2');
+if (headerText) headerText.style.display = 'none';
+
+  const kutteBtns = document.querySelector('.final-btns');
+  if (kutteBtns) kutteBtns.style.display = 'none';
+
+  const wrapper = document.getElementById('kutteVideoWrapper');
+  const video = document.getElementById('kutteVideo');
+  wrapper.style.display = 'flex';
+  video.currentTime = 0;
+  video.play();
+
+  setTimeout(() => {
+    document.getElementById('backBtn').style.display = 'block';
+  }, 5000);
+
+  video.onended = () => {
+    hideKutteVideo();
+  };
+}
+
+function hideKutteVideo() {
+  
+  const wrapper = document.getElementById('kutteVideoWrapper');
+  const video = document.getElementById('kutteVideo');
+  video.pause();
+  wrapper.style.display = 'none';
+  document.getElementById('backBtn').style.display = 'none';
+
+  const modal = document.getElementById('storyModal');
+  if (modal) modal.style.display = lastStoryDisplay || 'flex';
+
+
+  const headerText = document.querySelector('#final-scene h2');
+if (headerText) headerText.style.display = 'block';
+
+  const kutteBtns = document.querySelector('.final-btns');
+  if (kutteBtns) kutteBtns.style.display = 'flex';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const kutteBtn = document.querySelector(".final-btns button");
+  if (kutteBtn && kutteBtn.innerText.includes("kutte")) {
+    kutteBtn.setAttribute("onclick", "showKutteVideo()");
+  }
+});
+
+
+
+
   </script>
 
 </body>
