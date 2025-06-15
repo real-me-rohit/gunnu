@@ -525,7 +525,7 @@
     </div>
   </div>
 
-  <audio id="storyAudio" src="./library/dream gurl.mp3"></audio>
+  <audio id="storyAudio" src="./library/dream girl.mp3"></audio>
 
   <div class="bottom-nav">
     <div class="nav-wrapper">
@@ -696,6 +696,7 @@ function showStory() {
         current.classList.remove('exit-left', 'exit-right');
         next.classList.add('active');
         currentTabIndex = index;
+        moveTabUnderline(tabIcons[index]);
       }, 300);
     }
 
