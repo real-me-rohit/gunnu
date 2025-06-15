@@ -70,27 +70,28 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    .btn {
-      margin: 10px;
-      padding: 12px 24px;
-      background-color: #fff;
-      color: #e74c3c;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.1s ease, background-color 0.3s ease;
-      box-shadow: 0 4px #999;
-    }
+   .btn {
+  margin: 15px;
+  padding: 12px 30px;
+  font-size: 15px;
+  background-color: #fff;
+  color: #e74c3c;
+  border: none;
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.3s ease;
+  box-shadow: 0 6px #999;
+}
 
-    .btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px #666;
-    }
+.btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 3px #666;
+}
 
-    .btn:hover {
-      background-color: #ffe6e6;
-    }
+.btn:hover {
+  background-color: #ffe6e6;
+}
 
     #finalStep, #lastMsg, #afterFinalLine, #shinchanBtn, #finalDecision, #backButton {
       display: none;
@@ -278,36 +279,49 @@
     song.play();
   }
 
-  function showVideo(callerSectionId) {
-    lastSectionId = callerSectionId;
-    document.getElementById(callerSectionId).style.display = 'none';
-    document.getElementById('afterFinalLine').style.display = 'none';
-    stopBackgroundMusic();
-    const video = document.getElementById("apologyVideo");
-    video.style.display = "block";
-    video.muted = false;
-    video.play();
-    setTimeout(() => {
-      document.getElementById('backButton').style.display = 'inline-block';
-    }, 7000);
+function showVideo(callerSectionId) {
+  lastSectionId = callerSectionId;
+  document.getElementById(callerSectionId).style.display = 'none';
+  document.getElementById('afterFinalLine').style.display = 'none';
+
+  // ✅ Hide the GIF
+  const gif = document.querySelector('.gif');
+  if (gif) gif.style.display = 'none';
+
+  stopBackgroundMusic();
+  const video = document.getElementById("apologyVideo");
+  video.style.display = "block";
+  video.muted = false;
+  video.play();
+  setTimeout(() => {
+    document.getElementById('backButton').style.display = 'inline-block';
+  }, 7000);
+}
+
+
+function goBack() {
+  const video = document.getElementById('apologyVideo');
+  video.pause();
+  video.style.display = 'none';
+  document.getElementById('backButton').style.display = 'none';
+
+  // ✅ Show the GIF again
+  const gif = document.querySelector('.gif');
+  if (gif) gif.style.display = 'block';
+
+  if (lastSectionId) {
+    document.getElementById(lastSectionId).style.display = 'block';
+    if (lastSectionId === "finalStep") {
+      document.getElementById('lastMsg').classList.add('show');
+    }
+    if (lastSectionId === "finalDecision") {
+      document.getElementById('afterFinalLine').style.display = 'block';
+    }
   }
 
-  function goBack() {
-    const video = document.getElementById('apologyVideo');
-    video.pause();
-    video.style.display = 'none';
-    document.getElementById('backButton').style.display = 'none';
-    if (lastSectionId) {
-      document.getElementById(lastSectionId).style.display = 'block';
-      if (lastSectionId === "finalStep") {
-        document.getElementById('lastMsg').classList.add('show');
-      }
-      if (lastSectionId === "finalDecision") {
-        document.getElementById('afterFinalLine').style.display = 'block';
-      }
-    }
-    resumeBackgroundMusic();
-  }
+  resumeBackgroundMusic();
+}
+
 </script>
 </body>
 </html>
